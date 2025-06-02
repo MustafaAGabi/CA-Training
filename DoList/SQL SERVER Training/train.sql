@@ -46,13 +46,31 @@ SELECT VD.Vehicle_Display_Name, VD.NumDoors,
 CASE
 	WHEN VD.NumDoors = 0 THEN 'Zero Door'
 	WHEN VD.NumDoors = 1 THEN 'One Door'
-	WHEN VD.NumDoors = 2 THEN 'Tow dOORS'
-	WHEN VD.NumDoors = 3 THEN 'Three dOORS'
-	WHEN VD.NumDoors = 4 THEN 'Four dOORS'
-	WHEN VD.NumDoors = 5 THEN 'Five dOORS'
-	WHEN VD.NumDoors = 6 THEN 'Six dOORS'
-	WHEN VD.NumDoors = 8 THEN 'Eight dOORS'
+	WHEN VD.NumDoors = 2 THEN 'Tow Doors'
+	WHEN VD.NumDoors = 3 THEN 'Three Doors'
+	WHEN VD.NumDoors = 4 THEN 'Four Doors'
+	WHEN VD.NumDoors = 5 THEN 'Five Doors'
+	WHEN VD.NumDoors = 6 THEN 'Six Doors'
+	WHEN VD.NumDoors = 8 THEN 'Eight Doors'
 	WHEN VD.NumDoors IS NULL THEN 'Not Set'
 	ELSE 'Unknown'
 END AS DoorDescription
 FROM VehicleDetails VD
+
+
+-- Problem 31
+-- Get all vehicales_Display_Name, year, and add extra columnto calculate the age of the car
+-- then sort the results by age disc
+SELECT GETDATE()		-- Return tha Current Date
+SELECT YEAR(GETDATE())  -- Return The Current Year
+SELECT DAY(GETDATE())	-- Return The Current Day
+-- Get Diff Between Tow Dates
+SELECT DATEDIFF(YEAR, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
+SELECT DATEDIFF(MONTH, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
+SELECT DATEDIFF(DAY, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
+
+SELECT VD.Vehicle_Display_Name, VD.Year,Age = (YEAR(GETDATE()) - VD.Year) 
+FROM VehicleDetails VD
+ORDER BY Age DESC
+
+
