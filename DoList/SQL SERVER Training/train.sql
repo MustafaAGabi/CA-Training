@@ -74,3 +74,19 @@ FROM VehicleDetails VD
 ORDER BY Age DESC
 
 
+-- Problem 32
+-- Get all Vehicle_Display_Name, year, Age
+-- for vehicles that their age between 15 and 25 years old
+-- Solution 1 slow
+SELECT VD.Vehicle_Display_Name, VD.Year, Age = (YEAR(GETDATE()) - VD.Year)
+FROM VehicleDetails VD
+WHERE (YEAR(GETDATE()) - VD.Year) BETWEEN 15 AND 25
+ORDER BY Age ASC
+
+-- Solution 2 faster
+SELECT * FROM (
+	SELECT  VD.Vehicle_Display_Name, VD.Year, Age = (YEAR(GETDATE()) - VD.Year)
+	FROM VehicleDetails VD
+) AS R1
+WHERE R1.Age BETWEEN 15 AND 25
+ORDER BY R1.Age ASC
