@@ -8,3 +8,11 @@ FROM VehicleDetails VD
 INNER JOIN Bodies B ON VD.BodyID = B.BodyID
 WHERE B.BodyName = N'Sport Utility' AND VD.[Year] > 200
 
+
+-- Problem 27
+-- Get all vehicles that their Body is 'Coupe' or 'Hatchback' or 'Sedan'
+SELECT b.BodyName, *
+FROM VehicleDetails VD
+INNER JOIN Bodies B ON VD.BodyID = B.BodyID
+WHERE B.BodyName IN ('Coupe', 'Hatchback', 'Sedan')
+
