@@ -25,3 +25,12 @@ WHERE VD.[Year] IN  (2008, 2020, 2021) AND B.BodyName IN ('Coupe', 'Hatchback', 
 ORDER BY VD.Vehicle_Display_Name
 
 
+-- Problem 29
+-- Return Found = 1 if there is any vehicale made in year 1950
+SELECT Found = 1
+WHERE EXISTS ( SELECT TOP 1 VD.Year FROM VehicleDetails VD WHERE VD.Year = 1950)
+
+IF EXISTS (SELECT TOP 1 VD.Year FROM VehicleDetails VD WHERE VD.YEAR = 1950)
+BEGIN
+	SELECT Founde = 1
+END;
