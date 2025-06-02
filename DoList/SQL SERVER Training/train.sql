@@ -34,3 +34,25 @@ IF EXISTS (SELECT TOP 1 VD.Year FROM VehicleDetails VD WHERE VD.YEAR = 1950)
 BEGIN
 	SELECT Founde = 1
 END;
+
+
+-- Problem 30
+-- Get all Vehicle_Display_Name, NumDoors, and add extra column to descripe number of doors by words
+-- and if door is NULL display 'Not Set'
+-- To Known Number of Doors For All Vehicles
+SELECT DISTINCT NumDoors FROM VehicleDetails
+
+SELECT VD.Vehicle_Display_Name, VD.NumDoors,
+CASE
+	WHEN VD.NumDoors = 0 THEN 'Zero Door'
+	WHEN VD.NumDoors = 1 THEN 'One Door'
+	WHEN VD.NumDoors = 2 THEN 'Tow dOORS'
+	WHEN VD.NumDoors = 3 THEN 'Three dOORS'
+	WHEN VD.NumDoors = 4 THEN 'Four dOORS'
+	WHEN VD.NumDoors = 5 THEN 'Five dOORS'
+	WHEN VD.NumDoors = 6 THEN 'Six dOORS'
+	WHEN VD.NumDoors = 8 THEN 'Eight dOORS'
+	WHEN VD.NumDoors IS NULL THEN 'Not Set'
+	ELSE 'Unknown'
+END AS DoorDescription
+FROM VehicleDetails VD
