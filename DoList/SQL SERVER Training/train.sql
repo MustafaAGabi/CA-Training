@@ -107,3 +107,10 @@ WHERE VD1.Engine_CC = (SELECT MIN(VD2.Engine_CC) AS MinEngineCC FROM VehicleDeta
 SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
 FROM VehicleDetails VD1
 WHERE VD1.Engine_CC = (SELECT MAX(VD2.Engine_CC) AS MaxEngineCC FROM VehicleDetails VD2)
+
+
+-- Problem 36
+-- Get all vehicles that have Engin_CC below average
+SELECT *
+FROM VehicleDetails VD
+WHERE VD.Engine_CC < (SELECT AVG(VD2.Engine_CC) FROM VehicleDetails VD2 )
