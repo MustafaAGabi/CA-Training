@@ -127,3 +127,9 @@ SELECT Count(*) AS NumberOfVehiclesAboveAverageEngineCC FROM
 	WHERE VD.Engine_CC > ( SELECT  Avg(Engine_CC) AS MinEngineCC  FROM VehicleDetails)
 
 ) R1
+
+-- Problem 38
+-- Get all unique Engine_CC And sort them Desc
+SELECT DISTINCT Engine_CC 
+FROM VehicleDetails
+ORDER BY Engine_CC DESC
