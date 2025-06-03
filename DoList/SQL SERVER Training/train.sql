@@ -185,3 +185,36 @@ WHERE VD.Engine_CC IN
 )
 ORDER BY M.Make ASC
 
+
+-- Problem 42
+-- Get a table of unique Engine_CC and calculate tax per Engine_CC
+--Solution 1
+SELECT DISTINCT Engine_CC,
+CASE
+	WHEN Engine_CC <= 1000 THEN 100
+	WHEN Engine_CC <= 2000 THEN 200
+	WHEN Engine_CC <= 4000 THEN 300
+	WHEN Engine_CC <= 6000 THEN 400
+	WHEN Engine_CC <= 8000 THEN 500
+	WHEN Engine_CC >  8000 THEN 600
+	ELSE 0
+END AS Tax
+FROM VehicleDetails
+ORDER BY Engine_CC
+
+-- Solution 2
+SELECT Engine_CC,
+	CASE
+		WHEN Engine_CC BETWEEN 0    AND 1000 THEN 100
+		WHEN Engine_CC BETWEEN 1001 AND 2000 THEN 200
+		WHEN Engine_CC BETWEEN 2001 AND 4000 THEN 300
+		WHEN Engine_CC BETWEEN 4001 AND 6000 THEN 400
+		WHEN Engine_CC BETWEEN 6001 AND 8000 THEN 500
+		WHEN Engine_CC > 8000 THEN 600
+		ELSE 0
+	END AS Tax
+FROM
+(
+	SELECT DISTINCT ENGINE_CC FROM VehicleDetails
+) AS R1
+ORDER BY Engine_CC
