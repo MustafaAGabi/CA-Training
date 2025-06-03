@@ -155,3 +155,33 @@ ORDER BY VD.Engine_CC ASC
 İíÌÈ Úáíß Çä ÊÓÊÑÌÚ ÇÚáì ÚÔÑÉ ÚáÇãÇÊ æÈÚÏåÇ ÊÓÊÑÌÚ ÇáØáÇÈ ÇáĞíä ÍÕáæ Úáì æÇÍÏå ãä åĞå ÇáÚáÇãÇÊ
 */
 
+-- Problem 41
+-- Get all Makes that manufactures one of the Max 3 Engine_CC
+--  Solution 1
+SELECT M.Make
+FROM Makes M
+WHERE M.MakeID IN
+(
+	SELECT DISTINCT VD.MakeID
+	FROM VehicleDetails VD 
+	WHERE VD.Engine_CC IN
+	(
+		SELECT DISTINCT TOP 3 Engine_CC 
+		FROM VehicleDetails 
+		ORDER BY Engine_CC DESC
+	)
+)
+ORDER BY M.Make ASC
+
+--  Solution 2
+SELECT DISTINCT M.Make --, VD.Vehicle_Display_Name, VD.Engine_CC
+FROM Makes M
+INNER JOIN VehicleDetails VD ON M.MakeID = VD.MakeID
+WHERE VD.Engine_CC IN
+(
+	SELECT DISTINCT TOP 3 Engine_CC 
+	FROM VehicleDetails 
+	ORDER BY Engine_CC DESC
+)
+ORDER BY M.Make ASC
+
