@@ -139,3 +139,19 @@ ORDER BY Engine_CC DESC
 SELECT DISTINCT TOP 3 Engine_CC
 FROM VehicleDetails
 ORDER BY Engine_CC DESC
+
+-- Problem 40
+-- Get all vehicles that has one of the max 3 Engine_CC
+SELECT VD.Vehicle_Display_Name, VD.Engine_CC
+FROM VehicleDetails VD
+WHERE VD.Engine_CC IN 
+(
+	SELECT DISTINCT TOP 3 Engine_CC FROM VehicleDetails ORDER BY Engine_CC DESC
+)
+ORDER BY VD.Engine_CC ASC
+/*
+гб«Ќў… е–е «бЎ—нё… ен дЁ”е«  ” ќѕге« «–« я«д бѕня ћѕжб Ёне Ўб«» жгЏѕб« ег жЎб» гдя «д  ” —ћЏ «бЏ‘—… «б«ж«∆б
+«бЏ‘—… «б«ж«∆б ггяд няждж 15 б«де ггяд «д няжд ед«бя Џб«г«  гя——…
+Ёнћ» Џбня «д  ” —ћЏ «Џбм Џ‘—… Џб«г«  ж»Џѕе«  ” —ћЏ «бЎб«» «б–нд Ќ’бж Џбм ж«Ќѕе гд е–е «бЏб«г« 
+*/
+
