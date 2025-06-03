@@ -57,9 +57,59 @@ CASE
 END AS DoorDescription
 FROM VehicleDetails VD
 
-SELECT Vehicle_Display_Name, NumDoors,
-CASE 
-	WHEN NumDoors IS NULL OR NumDoors = 0 THEN 'No Set'
-	ELSE CAST( (SELECT NumDoors FROM VehicleDetails vd2 WHERE vd2.BodyID = vd1.BodyID) AS nvarchar(5)) + ' Door(s)'
-END AS DoorDescription
-FROM VehicleDetails vd1
+
+-- Problem 31
+-- Get all vehicales_Display_Name, year, and add extra columnto calculate the age of the car
+-- then sort the results by age disc
+SELECT GETDATE()		-- Return tha Current Date
+SELECT YEAR(GETDATE())  -- Return The Current Year
+SELECT DAY(GETDATE())	-- Return The Current Day
+-- Get Diff Between Tow Dates
+SELECT DATEDIFF(YEAR, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
+SELECT DATEDIFF(MONTH, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
+SELECT DATEDIFF(DAY, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
+
+SELECT VD.Vehicle_Display_Name, VD.Year,Age = (YEAR(GETDATE()) - VD.Year) 
+FROM VehicleDetails VD
+ORDER BY Age DESC
+
+
+-- Problem 32
+-- Get all Vehicle_Display_Name, year, Age
+-- for vehicles that their age between 15 and 25 years old
+-- Solution 1 slow
+SELECT VD.Vehicle_Display_Name, VD.Year, Age = (YEAR(GETDATE()) - VD.Year)
+FROM VehicleDetails VD
+WHERE (YEAR(GETDATE()) - VD.Year) BETWEEN 15 AND 25
+ORDER BY Age ASC
+
+-- Solution 2 faster
+SELECT * FROM (
+	SELECT  VD.Vehicle_Display_Name, VD.Year, Age = (YEAR(GETDATE()) - VD.Year)
+	FROM VehicleDetails VD
+) AS R1
+WHERE R1.Age BETWEEN 15 AND 25
+ORDER BY R1.Age ASC
+
+
+-- Problem 33
+-- Get Minimum Engine CC , Maximum Engine CC , and Average Engine CC of all Vehicles
+SELECT MIN(VD.Engine_CC), Max(VD.Engine_CC), AVG(VD.Engine_CC) FROM VehicleDetails VD
+
+-- Problem 34
+-- Get all vehicles that have the minimum Engine_CC
+SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
+FROM VehicleDetails VD1
+WHERE VD1.Engine_CC = (SELECT MIN(VD2.Engine_CC) AS MinEngineCC FROM VehicleDetails VD2)
+
+-- Problem 35
+-- Get all vehicles that have the Maximum Engine_CC
+SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
+FROM VehicleDetails VD1
+WHERE VD1.Engine_CC = (SELECT MAX(VD2.Engine_CC) AS MaxEngineCC FROM VehicleDetails VD2)
+
+
+-- Problem 36
+-- Get all vehicles that have Engin_CC below average
+SELECT * FROM VehicleDetails VD
+WHERE VD.Engine_CC < ( SELECT  Avg(VD1.Engine_CC) AS AverageEngineCC FROM VehicleDetails VD1 )
