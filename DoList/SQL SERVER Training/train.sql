@@ -46,64 +46,20 @@ SELECT VD.Vehicle_Display_Name, VD.NumDoors,
 CASE
 	WHEN VD.NumDoors = 0 THEN 'Zero Door'
 	WHEN VD.NumDoors = 1 THEN 'One Door'
-	WHEN VD.NumDoors = 2 THEN 'Tow Doors'
-	WHEN VD.NumDoors = 3 THEN 'Three Doors'
-	WHEN VD.NumDoors = 4 THEN 'Four Doors'
-	WHEN VD.NumDoors = 5 THEN 'Five Doors'
-	WHEN VD.NumDoors = 6 THEN 'Six Doors'
-	WHEN VD.NumDoors = 8 THEN 'Eight Doors'
+	WHEN VD.NumDoors = 2 THEN 'Tow dOORS'
+	WHEN VD.NumDoors = 3 THEN 'Three dOORS'
+	WHEN VD.NumDoors = 4 THEN 'Four dOORS'
+	WHEN VD.NumDoors = 5 THEN 'Five dOORS'
+	WHEN VD.NumDoors = 6 THEN 'Six dOORS'
+	WHEN VD.NumDoors = 8 THEN 'Eight dOORS'
 	WHEN VD.NumDoors IS NULL THEN 'Not Set'
 	ELSE 'Unknown'
 END AS DoorDescription
 FROM VehicleDetails VD
 
-
--- Problem 31
--- Get all vehicales_Display_Name, year, and add extra columnto calculate the age of the car
--- then sort the results by age disc
-SELECT GETDATE()		-- Return tha Current Date
-SELECT YEAR(GETDATE())  -- Return The Current Year
-SELECT DAY(GETDATE())	-- Return The Current Day
--- Get Diff Between Tow Dates
-SELECT DATEDIFF(YEAR, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
-SELECT DATEDIFF(MONTH, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
-SELECT DATEDIFF(DAY, DATEFROMPARTS(YEAR(GETDATE()),1,1), GETDATE())
-
-SELECT VD.Vehicle_Display_Name, VD.Year,Age = (YEAR(GETDATE()) - VD.Year) 
-FROM VehicleDetails VD
-ORDER BY Age DESC
-
-
--- Problem 32
--- Get all Vehicle_Display_Name, year, Age
--- for vehicles that their age between 15 and 25 years old
--- Solution 1 slow
-SELECT VD.Vehicle_Display_Name, VD.Year, Age = (YEAR(GETDATE()) - VD.Year)
-FROM VehicleDetails VD
-WHERE (YEAR(GETDATE()) - VD.Year) BETWEEN 15 AND 25
-ORDER BY Age ASC
-
--- Solution 2 faster
-SELECT * FROM (
-	SELECT  VD.Vehicle_Display_Name, VD.Year, Age = (YEAR(GETDATE()) - VD.Year)
-	FROM VehicleDetails VD
-) AS R1
-WHERE R1.Age BETWEEN 15 AND 25
-ORDER BY R1.Age ASC
-
-
--- Problem 33
--- Get Minimum Engine CC , Maximum Engine CC , and Average Engine CC of all Vehicles
-SELECT MIN(VD.Engine_CC), Max(VD.Engine_CC), AVG(VD.Engine_CC) FROM VehicleDetails VD
-
--- Problem 34
--- Get all vehicles that have the minimum Engine_CC
-SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
-FROM VehicleDetails VD1
-WHERE VD1.Engine_CC = (SELECT MIN(VD2.Engine_CC) AS MinEngineCC FROM VehicleDetails VD2)
-
--- Problem 35
--- Get all vehicles that have the Maximum Engine_CC
-SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
-FROM VehicleDetails VD1
-WHERE VD1.Engine_CC = (SELECT MAX(VD2.Engine_CC) AS MaxEngineCC FROM VehicleDetails VD2)
+SELECT Vehicle_Display_Name, NumDoors,
+CASE 
+	WHEN NumDoors IS NULL OR NumDoors = 0 THEN 'No Set'
+	ELSE CAST( (SELECT NumDoors FROM VehicleDetails vd2 WHERE vd2.BodyID = vd1.BodyID) AS nvarchar(5)) + ' Door(s)'
+END AS DoorDescription
+FROM VehicleDetails vd1
