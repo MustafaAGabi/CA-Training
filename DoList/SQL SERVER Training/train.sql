@@ -95,3 +95,9 @@ ORDER BY R1.Age ASC
 -- Problem 33
 -- Get Minimum Engine CC , Maximum Engine CC , and Average Engine CC of all Vehicles
 SELECT MIN(VD.Engine_CC), Max(VD.Engine_CC), AVG(VD.Engine_CC) FROM VehicleDetails VD
+
+-- Problem 34
+-- Get all vehicles that have the minimum Engine_CC
+SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
+FROM VehicleDetails VD1
+WHERE VD1.Engine_CC = (SELECT MIN(VD2.Engine_CC) AS MinEngineCC FROM VehicleDetails VD2)
