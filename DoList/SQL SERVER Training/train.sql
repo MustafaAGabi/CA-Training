@@ -113,3 +113,17 @@ WHERE VD1.Engine_CC = (SELECT MAX(VD2.Engine_CC) AS MaxEngineCC FROM VehicleDeta
 -- Get all vehicles that have Engin_CC below average
 SELECT * FROM VehicleDetails VD
 WHERE VD.Engine_CC < ( SELECT  Avg(VD1.Engine_CC) AS AverageEngineCC FROM VehicleDetails VD1 )
+
+
+-- Problem 37
+-- Get total vehicles that have Engin_CC above average
+SELECT Count(*) AS NumberOfVehiclesAboveAverageEngineCC
+FROM VehicleDetails VD
+WHERE VD.Engine_CC > (SELECT Avg(VD1.Engine_CC) AS AvgEngineCC FROM VehicleDetails VD1)
+
+SELECT Count(*) AS NumberOfVehiclesAboveAverageEngineCC FROM
+(
+	SELECT ID,VD.Vehicle_Display_Name FROM VehicleDetails VD
+	WHERE VD.Engine_CC > ( SELECT  Avg(Engine_CC) AS MinEngineCC  FROM VehicleDetails)
+
+) R1
