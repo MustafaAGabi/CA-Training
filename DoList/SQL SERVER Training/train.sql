@@ -90,3 +90,8 @@ SELECT * FROM (
 ) AS R1
 WHERE R1.Age BETWEEN 15 AND 25
 ORDER BY R1.Age ASC
+
+
+-- Problem 33
+-- Get Minimum Engine CC , Maximum Engine CC , and Average Engine CC of all Vehicles
+SELECT MIN(VD.Engine_CC), Max(VD.Engine_CC), AVG(VD.Engine_CC) FROM VehicleDetails VD
