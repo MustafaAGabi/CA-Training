@@ -101,3 +101,9 @@ SELECT MIN(VD.Engine_CC), Max(VD.Engine_CC), AVG(VD.Engine_CC) FROM VehicleDetai
 SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
 FROM VehicleDetails VD1
 WHERE VD1.Engine_CC = (SELECT MIN(VD2.Engine_CC) AS MinEngineCC FROM VehicleDetails VD2)
+
+-- Problem 35
+-- Get all vehicles that have the Maximum Engine_CC
+SELECT VD1.Vehicle_Display_Name, VD1.Engine_CC
+FROM VehicleDetails VD1
+WHERE VD1.Engine_CC = (SELECT MAX(VD2.Engine_CC) AS MaxEngineCC FROM VehicleDetails VD2)
